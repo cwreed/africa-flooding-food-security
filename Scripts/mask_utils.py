@@ -20,11 +20,23 @@ def raster_calc_annual(geodf, raster_file, year, func, col, all_touched = True):
         geodf.loc[(geodf.Year == year), col] = \
         geodf.loc[(geodf.Year == year)].geometry.apply(clean_mask, all_touched = all_touched, dataset = file).apply(func)
 
+def raster_calc_seasonal(geodf, raster_file, year, month, func, col, all_touched = True):
+    """
+    Apply raster calculation function to geometries of a GeoDataFrame for a specified year.
+    Specify which column of
+    """
+    with rio.open(raster_file) as file:
+        geodf.loc[(geodf.Year == year) & (geodf.Month == month), col] = \
+        geodf.loc[(geodf.Year == year) & (geodf.Month == month)].geometry.apply(clean_mask,
+                    all_touched = all_touched, dataset = file).apply(func)
+
 def mean_ipc(masked):
     """
     Return the mean IPC rating for a masked region.
     """
-    return(np.ma.mean(masked.data))
+    x = masked.data
+    x[(x > 5) | (x < 1)] = 0
+    return(np.ma.mean(x[x.nonzero()]))
 
 def prop_flood(masked):
     """
