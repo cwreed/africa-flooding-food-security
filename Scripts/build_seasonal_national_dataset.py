@@ -66,12 +66,15 @@ def main():
 
     print("Flood data added successfully.\n")
 
-    # Add Mean IPC rating data
+    # Add Mean IPC rating and IPC sample variance data
     df['mean_ipc'] = None
+    df['var_ipc'] = None
 
     for i, file in enumerate(ipc_files):
         mask_utils.raster_calc_seasonal(df, os.path.join(ipc_dir, file), ipc_year_month[i][0], ipc_year_month[i][1],
         mask_utils.mean_ipc, 'mean_ipc', all_touched = True)
+        mask_utils.raster_calc_seasonal(df, os.path.join(ipc_dir, file), ipc_year_month[i][0], ipc_year_month[i][1],
+        mask_utils.samp_var_ipc, 'var_ipc', all_touched = True)
 
     print("IPC data added successfully.\n")
 

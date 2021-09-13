@@ -25,6 +25,9 @@ def add_time_to_df_ipc(geodf, geo_ID_col, ipc_time_tup):
     inter_df['datetime_end'] = pd.to_datetime(['{}-{}-01'.format(y,m) for y, m in list(zip(inter_df.Year, inter_df.Month))])
     inter_df['datetime_start'] = inter_df['datetime_end'].shift(1, fill_value = datetime(2009, 3 ,31)) + timedelta(days = 1)
 
+    inter_df['datetime_start'] = inter_df['datetime_start'].dt.date
+    inter_df['datetime_end'] = inter_df['datetime_end'].dt.date
+
     new_df = geodf.join(inter_df, on = geo_ID_col)
 
     del inter_df
@@ -83,77 +86,6 @@ def find_dam_breaks(row):
     else:
         return(0)
 
-def build_national_flood_poly_feats(df, dfo_df, country_names):
-    """This function is obsolete, use build_flood_poly_feats instead.
-    Kept as reference."""
-    dfo_df = dfo_df[dfo_df.Country.isin(country_names)]
-
-    dfo_df['Began'] = pd.to_datetime(dfo_df['Began'])
-    dfo_df['Ended'] = pd.to_datetime(dfo_df['Ended'])
-    dfo_df = dfo_df[(dfo_df.Began >= datetime(2009, 1, 1))]
-
-    df_copy = df.to_crs('esri:102022').copy()
-    flood_copy = dfo_df.to_crs('esri:102022').copy()
-
-    for i, row in df_copy.iterrows():
-        country = row['Name']
-        geom_place = row['geometry']
-        date_current = row['datetime_end']
-        date_prev = row['datetime_start']
-
-        floods_select = flood_copy.loc[(flood_copy['Country'] == country) &
-                                (((flood_copy['Began'] < date_current) & (flood_copy['Began'] > date_prev)) |
-                               ((flood_copy['Ended'] > date_prev) & (flood_copy['Ended'] < date_current)))]
-
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'no_flood_events'] = floods_select.ID.count()
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'no_dam_breaks'] = floods_select['Dam break'].sum()
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'max_flood_sev'] = floods_select.Severity.max()
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'mean_flood_sev'] = floods_select.Severity.mean()
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'mean_flood_area_km2'] = floods_select.geometry.area.mean()/(1e06)
-
-        try:
-            df_copy.loc[(df_copy.Name == country) &
-                        (df_copy.datetime_end == date_current),
-                        'total_flood_area_km2'] = floods_select.buffer(0).unary_union.intersection(geom_place.buffer(0)).area/1e06
-        except ValueError:
-            df_copy.loc[(df_copy.Name == country) &
-                        (df_copy.datetime_end == date_current),
-                        'total_flood_area_km2'] = 0
-
-        #floods_select['Duration'] =
-        #df_copy.loc[(df_copy.Name == country) &
-        #            (df_copy.datetime_end == date_current),
-        #            'mean_flood_dur_days'] = floods_select.Duration.mean()
-
-        began = floods_select.Began.copy()
-        ended = floods_select.Ended.copy()
-        date_ranges = sorted(list(zip(began, ended)))
-
-        for i in range(len(date_ranges) - 1):
-            if date_ranges[i][1] > date_ranges[i+1][0]:
-                began.iloc[i+1] = ended.iloc[i]
-
-
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'total_flood_dur_days'] = np.sum(ended-began).days
-
-        df_copy.loc[(df_copy.Name == country) &
-                    (df_copy.datetime_end == date_current),
-                    'total_displaced_dfo'] = floods_select.Displaced.sum()
-
-    return(df_copy.to_crs('epsg:4326'))
-
 def build_flood_poly_feats(df, dfo_df, country_names):
 
     dfo_df = dfo_df[dfo_df.Country.isin(country_names)]
@@ -208,11 +140,22 @@ def build_flood_poly_feats(df, dfo_df, country_names):
 
             if date_ranges:
                 df_select.loc[j, 'total_flood_dur_days'] = np.sum(ended-began).days
+                df_select.loc[j, 'flood_1_7_days'] = np.count_nonzero((ended - began).dt.days <= 7)
+                df_select.loc[j, 'flood_8_14_days'] = np.count_nonzero(((ended - began).dt.days > 7) & ((ended - began).dt.days <= 14))
+                df_select.loc[j, 'flood_15_21_days'] = np.count_nonzero(((ended - began).dt.days > 14) & ((ended - began).dt.days <= 21))
+                df_select.loc[j, 'flood_22_28_days'] = np.count_nonzero(((ended - began).dt.days > 21) & ((ended - began).dt.days <= 28))
+                df_select.loc[j, 'flood_29_plus_days'] = np.count_nonzero((ended - began).dt.days > 28)
             else:
                 df_select.loc[j, 'total_flood_dur_days'] = 0
+                df_select.loc[j, 'flood_1_7_days'] = 0
+                df_select.loc[j, 'flood_8_14_days'] = 0
+                df_select.loc[j, 'flood_15_21_days'] = 0
+                df_select.loc[j, 'flood_22_28_days'] = 0
+                df_select.loc[j, 'flood_29_plus_days'] = 0
 
             try:
                 df_select.loc[j, 'total_flood_area_km2'] = floods_select2.buffer(0).unary_union.intersection(geom_place.buffer(0)).area/1e06
+                df_select.loc[j, 'total_flood_area_std'] = floods_select2.buffer(0).unary_union.intersection(geom_place.buffer(0)).area / geom_place.buffer(0).area
             except ValueError:
                 df_select.loc[j, 'total_flood_area_km2'] = 0
 
@@ -223,3 +166,6 @@ def build_flood_poly_feats(df, dfo_df, country_names):
 
     df_all = pd.concat(new_dfs, ignore_index = True)
     return(df_all.to_crs('epsg:4326'))
+
+def build_precip_table(df):
+    end_dates = df['datetime_end']

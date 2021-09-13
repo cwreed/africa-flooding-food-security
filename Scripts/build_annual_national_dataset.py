@@ -11,13 +11,14 @@ import utils
 """
     Load files and directories to local data
 """
-data_dir = '../../Data/'
+data_dir = '../Data/'
 
 flood_dir = os.path.join(data_dir, 'DFO flood extents/uncropped/')
-flood_files = [i for i in os.listdir(flood_dir)]
+flood_files = sorted([i for i in os.listdir(flood_dir)])
+nigeria_2012 = os.path.join(data_dir, 'Nigeria 2012/nigeria_2012_flood_geo.tiff')
 
 ipc_dir = os.path.join(data_dir, 'IPC/updated_files/')
-ipc_files = sorted([i for i in os.listdir(ipc_dir) if re.match(r'^.*201[4-9].*\.tif$', i)])[3:]
+ipc_files = sorted([i for i in os.listdir(ipc_dir) if re.match(r'^.*201[2,4-9].*\.tif$', i)])
 
 price_file = os.path.join(data_dir, 'Market prices/price_food_country_staples_index.csv')
 displacement_file = os.path.join(data_dir, 'flood_displacement.csv')
@@ -26,7 +27,7 @@ shp_dir = os.path.join(data_dir, 'ADM shapefiles/')
 country_names = sorted(['TCD', 'MLI', 'NER', 'NGA', 'MRT', 'BFA', 'SDN', 'SSD',
                         'ETH', 'UGA', 'KEN', 'SOM', 'ZMB', 'ZWE', 'MOZ', 'MWI'])
 country_shapes = {}
-years = np.arange(2014, 2019)
+years = np.arange(2012, 2019)
 
 def main():
 
@@ -49,6 +50,9 @@ def main():
        'CARICOM', 'EU', 'CAN', 'ACP', 'Landlocked', 'AOSIS', 'SIDS',
        'Islands', 'LDC',], 1)
 
+    country_df.loc[country_df['NAME_0'] == 'South Sudan', 'ID_0'] = 222
+    country_df.loc[country_df['NAME_0'] == 'South Sudan', 'ISO'] = 'SSD'
+
     df = utils.add_time_to_df(country_df, 'ID_0', years, [1]).drop(['Month', 'datetime'], 1)
     df = df.rename(columns={'NAME_0': 'Name'})
     df = df.to_crs('EPSG:4326')
@@ -61,12 +65,17 @@ def main():
 
     ## Calculate flood extent as percentage of national area
     for i, file in enumerate(flood_files):
-        mask_utils.raster_calc_annual(df, flood_dir + file, flood_years[i], mask_utils.prop_flood,
+        mask_utils.raster_calc_annual(df, os.path.join(flood_dir, file), flood_years[i], mask_utils.prop_flood,
                                    'flood_extent', all_touched = True)
+
+    ## Calculate flood extent for Nigeria 2012
+    mask_utils.raster_calc_annual(df.loc[(df['ISO'] == 'NGA')],
+                                        nigeria_2012, 2012, mask_utils.prop_flood,
+                                    'flood_extent', all_touched = True)
 
     ## Calculate mean flood duration in days for a given country year/country
     for i, file in enumerate(flood_files):
-        mask_utils.raster_calc_annual(df, flood_dir + file, flood_years[i], mask_utils.mean_flood_duration,
+        mask_utils.raster_calc_annual(df, os.path.join(flood_dir, file), flood_years[i], mask_utils.mean_flood_duration,
                                    'mean_flood_duration', all_touched = True)
 
     print("Flood data added successfully.\n")
@@ -86,7 +95,7 @@ def main():
 
     for i, file_set in enumerate(cleaned_ipc_files):
         for j, file in enumerate(file_set):
-            mask_utils.raster_calc_annual(df, ipc_dir + file, ipc_years[i][j], np.ma.mean, 'mean_ipc_{}'.format(i), all_touched = True)
+            mask_utils.raster_calc_annual(df, os.path.join(ipc_dir, file), ipc_years[i][j], np.ma.mean, 'mean_ipc_{}'.format(i), all_touched = True)
 
     print("IPC data added successfully.\n")
 
