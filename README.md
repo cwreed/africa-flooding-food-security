@@ -1,4 +1,4 @@
-# Flooding & Food Security in West Africa
+# Flooding & Food Security in Sub-Saharan Africa
 
 This repository contains ongoing analysis of the connections between past flooding, food security, and human displacement, focusing on West Africa. 
 
