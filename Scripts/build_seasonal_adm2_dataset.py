@@ -11,6 +11,10 @@ import xarray as xr
 import rioxarray
 import mask_utils
 import utils
+import logging
+
+logger = logging.getLogger('dataset_builder')
+logger.setLevel(logging.INFO)
 
 project_dir = Path(__file__).resolve().parents[1]
 data_dir = os.path.join(project_dir, "data")
@@ -42,14 +46,14 @@ def main():
     df = df.to_crs('EPSG:4326')
     df = df.reset_index()
 
-    print("Initial locations dataset created.\n")
+    logger.info("Initial locations dataset created.\n")
 
     # Append flood data from DFO polygons
     dfo_df = gpd.read_file(flood_file)
 
     df = utils.build_flood_poly_feats(df, dfo_df, country_names)
 
-    print("Flood data added successfully.\n")
+    logger.info("Flood data added successfully.\n")
 
     # Add Mean IPC rating data
     df['mean_ipc'] = None
@@ -61,7 +65,7 @@ def main():
         mask_utils.raster_calc_seasonal(df, os.path.join(ipc_dir, file), ipc_year_month[i][0], ipc_year_month[i][1],
         mask_utils.samp_var_ipc, 'var_ipc', all_touched = True)
 
-    print("IPC data added successfully.\n")
+    logger.info("IPC data added successfully.\n")
 
     df['mean_ipc'] = df['mean_ipc'].astype(float)
 
@@ -81,11 +85,26 @@ def main():
         mask_utils.xarray_calc_seasonal(df, precip, start_date, end_date, np.ma.sum, 'total_precip_mm')
         mask_utils.xarray_calc_seasonal(df, precip, start_date, end_date, np.ma.max, 'max_monthly_precip_mm')
 
-    print("Precipitation data added successfully.\n")
+    logger.info("Precipitation data added successfully.\n")
+
+    # First difference variables to build stationary features
+    df = df.assign(
+    season = lambda x: x['Month'].map(lambda month: "0" if month == 10 else
+                                                       ("1" if ((month == 12) | (month == 1)) else
+                                                           ("2" if ((month == 2) | (month == 4)) else
+                                                               "3")))
+    )
+
+    df['mean_ipc_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['mean_ipc'].diff()
+    df['var_ipc_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['var_ipc'].diff()
+    df['no_floods_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['no_flood_events'].diff()
+    df['total_flood_area_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['total_flood_area_std'].diff()
+    df['total_flood_dur_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['total_flood_dur_days'].diff()
+    logger.info("Time series features calculated successfully.\n")
 
     df.to_file(os.path.join(data_dir, 'flood_ipc_seasonal_adm2_timeseries.gpkg'), driver = 'GPKG')
 
-    print("Geopackage written: available at {}flood_ipc_seasonal_adm2_timeseries.gpkg\n".format(data_dir))
+    logger.info("Geopackage written: available at {}flood_ipc_seasonal_adm2_timeseries.gpkg\n".format(data_dir))
 
 if __name__ == '__main__':
     main()
