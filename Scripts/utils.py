@@ -5,7 +5,7 @@ import os
 import re
 import itertools as it
 from datetime import datetime, timedelta
-from typing import Tuple, list
+from typing import Tuple
 
 def add_time_to_df(
     geodf: gpd.GeoDataFrame, 

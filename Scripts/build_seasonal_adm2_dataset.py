@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio as rio
-from rasterio import mask
 from datetime import datetime, timedelta
 from cftime import num2date, date2num
 import os
@@ -12,6 +11,7 @@ import rioxarray
 import mask_utils
 import utils
 import logging
+from pathlib import Path
 
 logger = logging.getLogger('dataset_builder')
 logger.setLevel(logging.INFO)
