@@ -6,8 +6,10 @@ import rasterio as rio
 from rasterio import mask
 import rioxarray
 import xarray
+from pathlib import Path
 
-data_dir = '../Data/'
+project_dir = Path(__file__).resolve().parents[1]
+data_dir = os.path.join(project_dir, "data")
 
 def clean_mask(geom, dataset, **mask_kw):
     mask_kw.setdefault('crop', True)

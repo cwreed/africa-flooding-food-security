@@ -5,18 +5,27 @@ import os
 import re
 import itertools as it
 from datetime import datetime, timedelta
+from typing import Tuple, list
 
-def add_time_to_df(geodf, geo_ID_col, years, months):
+def add_time_to_df(
+    geodf: gpd.GeoDataFrame, 
+    geo_ID_col: str,
+    years: list, 
+    months: list) -> gpd.GeoDataFrame:
+    """Adds datetime column to GeoDataFrame based on provided years and months"""
     IDs = list(geodf[geo_ID_col])
-
     time = list(it.product(IDs, years, months))
     inter_df = pd.DataFrame(time, columns = [geo_ID_col, 'Year', 'Month']).set_index(geo_ID_col, drop = True)
     inter_df['datetime'] = pd.to_datetime(['{}-{}-01'.format(y,m) for y, m in list(zip(inter_df.Year, inter_df.Month))])
 
     new_df = geodf.join(inter_df, on = geo_ID_col)
-    return(new_df)
+    return new_df
 
-def add_time_to_df_ipc(geodf, geo_ID_col, ipc_time_tup):
+def add_time_to_df_ipc(
+    geodf: gpd.GeoDataFrame, 
+    geo_ID_col: str, 
+    ipc_time_tup: list) -> gpd.GeoDataFrame:
+    """Adds datetime start and end columns to each row of GeoDataFrame based on IPC reporting periods."""
     IDs = list(geodf[geo_ID_col])
 
     time = list(it.product(IDs, ipc_time_tup))
@@ -29,13 +38,11 @@ def add_time_to_df_ipc(geodf, geo_ID_col, ipc_time_tup):
     inter_df['datetime_end'] = inter_df['datetime_end'].dt.date
 
     new_df = geodf.join(inter_df, on = geo_ID_col)
-
     del inter_df
+    return new_df
 
-    return(new_df)
-
-def ipc_prep(ipc_files):
-
+def ipc_prep(ipc_files: list) -> Tuple[list, list]:
+    """Organize IPC files based on season as encoded in filename"""
     ipc_0 = [i for i in ipc_files if re.match(r'^.*\d\d\d\d10.*$', i)]
     ipc_1 = [i for i in ipc_files if re.match(r'^.*\d\d\d\d((01)|(12)|(02)).*$', i)]
     ipc_2 = [i for i in ipc_files if re.match(r'^.*\d\d\d\d(04).*$', i)]
@@ -52,42 +59,22 @@ def ipc_prep(ipc_files):
     ipc_file_list = [ipc_0, ipc_1, ipc_2, ipc_3]
     ipc_years = [ipc_0_years, ipc_1_years, ipc_2_years, ipc_3_years]
 
-    return(ipc_file_list, ipc_years)
+    return ipc_file_list, ipc_years
 
-def build_price_feats(df, price_data_file, price_col):
-    df_copy = df.copy()
+# def find_dam_breaks(row):
+#     if row['MainCause'] is not None:
+#         if 'Dam' in row['MainCause']:
+#             return(1)
+#         else:
+#             return(0)
+#     else:
+#         return(0)
 
-    price_data = pd.read_csv(price_data_file)
-    price_months = [np.arange(6,10), np.arange(10,13), np.arange(1,4), np.arange(4,6)]
-
-    price_cols = ['mean_staple_price_{}'.format(i) for i in range(4)]
-    df_copy[price_cols] = None
-
-    for i, row in df.iterrows():
-        country = row['Name']
-        year = row['Year']
-
-        price_sub = price_data.loc[(price_data.country == country) & (price_data.year == year)]
-        mean_prices = []
-
-        for j in range(4):
-            mean_prices.append(price_sub.loc[(price_sub.month.isin(price_months[j]))][price_col].mean())
-
-        df_copy.loc[(df_copy.Name == country) & (df_copy.Year == year), price_cols] = mean_prices
-
-    return(df_copy)
-
-def find_dam_breaks(row):
-    if row['MainCause'] is not None:
-        if 'Dam' in row['MainCause']:
-            return(1)
-        else:
-            return(0)
-    else:
-        return(0)
-
-def build_flood_poly_feats(df, dfo_df, country_names):
-
+def build_flood_poly_feats(
+    df: gpd.GeoDataFrame, 
+    dfo_df: gpd.GeoDataFrame, 
+    country_names: list) -> gpd.GeoDataFrame:
+    """Helper function to build features from flood polygons"""
     dfo_df = dfo_df[dfo_df.Country.isin(country_names)]
 
     dfo_df['Began'] = pd.to_datetime(dfo_df['Began'])
@@ -166,6 +153,3 @@ def build_flood_poly_feats(df, dfo_df, country_names):
 
     df_all = pd.concat(new_dfs, ignore_index = True)
     return(df_all.to_crs('epsg:4326'))
-
-def build_precip_table(df):
-    end_dates = df['datetime_end']
