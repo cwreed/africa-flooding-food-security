@@ -46,14 +46,14 @@ def main():
     df = df.to_crs('EPSG:4326')
     df = df.reset_index()
 
-    logger.info("Initial locations dataset created.\n")
+    logger.info("Initial locations dataset created.")
 
     # Append flood data from DFO polygons
     dfo_df = gpd.read_file(flood_file)
 
     df = utils.build_flood_poly_feats(df, dfo_df, country_names)
 
-    logger.info("Flood data added successfully.\n")
+    logger.info("Flood data added successfully.")
 
     # Add Mean IPC rating data
     df['mean_ipc'] = None
@@ -65,7 +65,7 @@ def main():
         mask_utils.raster_calc_seasonal(df, os.path.join(ipc_dir, file), ipc_year_month[i][0], ipc_year_month[i][1],
         mask_utils.samp_var_ipc, 'var_ipc', all_touched = True)
 
-    logger.info("IPC data added successfully.\n")
+    logger.info("IPC data added successfully.")
 
     df['mean_ipc'] = df['mean_ipc'].astype(float)
 
@@ -85,7 +85,7 @@ def main():
         mask_utils.xarray_calc_seasonal(df, precip, start_date, end_date, np.ma.sum, 'total_precip_mm')
         mask_utils.xarray_calc_seasonal(df, precip, start_date, end_date, np.ma.max, 'max_monthly_precip_mm')
 
-    logger.info("Precipitation data added successfully.\n")
+    logger.info("Precipitation data added successfully.")
 
     # First difference variables to build stationary features
     df = df.assign(
@@ -100,7 +100,7 @@ def main():
     df['no_floods_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['no_flood_events'].diff()
     df['total_flood_area_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['total_flood_area_std'].diff()
     df['total_flood_dur_diff'] = df.groupby(['Name', 'ADMIN1', 'ADMIN2', 'FIDcalc'])['total_flood_dur_days'].diff()
-    logger.info("Time series features calculated successfully.\n")
+    logger.info("Time series features calculated successfully.")
 
     df.to_file(os.path.join(data_dir, 'flood_ipc_seasonal_adm2_timeseries.gpkg'), driver = 'GPKG')
 
