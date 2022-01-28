@@ -1,0 +1,56 @@
+
+	Pesaran CD test for cross-sectional dependence in panels
+
+data:  mean_ipc_diff ~ plm::lag(no_floods_diff, 0:4) + plm::lag(total_flood_area_diff,     0:4) + plm::lag(total_flood_dur_diff, 0:4)
+z = NA, p-value = NA
+alternative hypothesis: cross-sectional dependence
+
+Oneway (individual) effect Random Effect Model 
+   (Wallace-Hussain's transformation)
+
+Note: Coefficient variance-covariance matrix supplied: function(x) vcovSCC(x, type = "HC1", maxlag = 4)
+
+Call:
+plm(formula = .formula, data = panel_data_adm2, model = "random", 
+    random.method = "walhus")
+
+Unbalanced Panel: n = 6588, T = 11-35, N = 223962
+
+Effects:
+                 var std.dev share
+idiosyncratic 0.9040  0.9508     1
+individual    0.0000  0.0000     0
+theta:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      0       0       0       0       0       0 
+
+Residuals:
+      Min.    1st Qu.     Median    3rd Qu.       Max. 
+-7.4756506 -0.0029322 -0.0029322  0.0013258  7.4943539 
+
+Coefficients:
+                                        Estimate Std. Error z-value Pr(>|z|)  
+(Intercept)                            0.0029322  0.0222427  0.1318  0.89512  
+plm::lag(no_floods_diff, 0:4)0        -0.0059860  0.0413866 -0.1446  0.88500  
+plm::lag(no_floods_diff, 0:4)1         0.0113434  0.0477326  0.2376  0.81216  
+plm::lag(no_floods_diff, 0:4)2         0.0989430  0.0427051  2.3169  0.02051 *
+plm::lag(no_floods_diff, 0:4)3         0.0499970  0.0413481  1.2092  0.22660  
+plm::lag(no_floods_diff, 0:4)4        -0.0443382  0.0310880 -1.4262  0.15381  
+plm::lag(total_flood_area_diff, 0:4)0 -0.0254602  0.0217231 -1.1720  0.24119  
+plm::lag(total_flood_area_diff, 0:4)1 -0.0509606  0.0321535 -1.5849  0.11298  
+plm::lag(total_flood_area_diff, 0:4)2 -0.0097593  0.0470538 -0.2074  0.83569  
+plm::lag(total_flood_area_diff, 0:4)3 -0.0114836  0.0461231 -0.2490  0.80338  
+plm::lag(total_flood_area_diff, 0:4)4  0.0057086  0.0264852  0.2155  0.82935  
+plm::lag(total_flood_dur_diff, 0:4)0  -0.0800127  0.0326572 -2.4501  0.01428 *
+plm::lag(total_flood_dur_diff, 0:4)1  -0.0910039  0.0355417 -2.5605  0.01045 *
+plm::lag(total_flood_dur_diff, 0:4)2  -0.1021799  0.0462287 -2.2103  0.02708 *
+plm::lag(total_flood_dur_diff, 0:4)3  -0.0501786  0.0445949 -1.1252  0.26050  
+plm::lag(total_flood_dur_diff, 0:4)4  -0.0104281  0.0299290 -0.3484  0.72752  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Total Sum of Squares:    200810
+Residual Sum of Squares: 197090
+R-Squared:      0.018522
+Adj. R-Squared: 0.018457
+Chisq: 277.261 on 15 DF, p-value: < 2.22e-16

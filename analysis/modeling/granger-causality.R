@@ -144,7 +144,8 @@ granger_pvalues_geom <- data %>%
 						left_join(granger_pvalues_nfloods, by = 'FIDcalc') %>%
 						left_join(granger_pvalues_flood_dur, by = 'FIDcalc') %>%
 						left_join(granger_pvalues_flood_area, by = 'FIDcalc') %>%
-						filter(time_index == 16) %>%
+						filter(time_index == 16) %>% # Whether or not Granger causality holds for a panel is time invariance;
+													 # Choosing a middle time index to sure we don't clip any panels with shorter data time spans
 						mutate(sig_nfloods = case_when(`p-value_nfloods` < p_fdr ~ 'Yes',
 												`p-value_nfloods` >= p_fdr ~ 'No',
 												is.na(`p-value_nfloods`) ~ 'Not enough information'),
