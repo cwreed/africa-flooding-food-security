@@ -19,7 +19,8 @@ logger.setLevel(logging.INFO)
 project_dir = Path(__file__).resolve().parents[1]
 data_dir = os.path.join(project_dir, "data")
 
-shp_file = os.path.join(data_dir, 'IPC/LZ_adm2_geometryFix_population.gpkg')
+shp_file = os.path.join(data_dir, 'IPC/LZ_adm2_geometryFix.gpkg')
+pop_file = os.path.join(data_dir, 'ppp_2020_1km_Aggregated.tif') # Source https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/0_Mosaicked/ppp_2020_1km_Aggregated.tif
 ipc_dir = os.path.join(data_dir, 'IPC/updated_files/')
 flood_file = os.path.join(data_dir, 'DFO flood extents/FloodsArchived_shp/floods_with_dambreaks.shp')
 country_names = sorted(['Chad', 'Mali', 'Niger', 'Nigeria', 'Mauritania',
@@ -38,8 +39,16 @@ def main():
     places_df = gpd.read_file(shp_file)
     places_df = places_df[places_df['ADMIN0'].isin(country_names)]
 
+    with rio.open(pop_file) as file:
+        places_df['2020_pop'] = places_df.geometry.apply(mask_utils.clean_mask, all_touched = True, dataset = file)\
+                                    .apply(np.ma.sum)
+
+    places_df.to_file(os.path.join(data_dir, "IPC/LZ_adm2_geometryFix_population.gpkg"))
+    
     df = utils.add_time_to_df_ipc(places_df, 'FIDcalc', ipc_year_month)
 
+    del places_df
+    
     bounding_dates = list(zip(df['datetime_start'].unique(), df['datetime_end'].unique()))
 
     df = df.rename(columns={'ADMIN0': 'Name'})
