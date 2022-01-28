@@ -9,6 +9,6 @@ This work is accompanied by qualitative case study analysis in our paper, which 
 ## Where does flooding affect food security?
 
 <p align="middle">
-  <img src="/outputs/figures/granger-map-final.png" width="100" />
-  <img src="/outputs/figures/granger-pop-insecure.png" width="100" /> 
+  <img src="/outputs/figures/granger-map-final.png" width="500" />
+  <img src="/outputs/figures/granger-pop-insecure.png" width="500" /> 
 </p>
