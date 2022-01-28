@@ -6,9 +6,11 @@ This work is accompanied by qualitative case study analysis in our paper, which 
 
 > Reed, C. et al. The impact of flooding on food security across Sub-Saharan Africa. (In review).
 
+<!--
 ## Where does flooding affect food security?
 
 <p align="middle">
-  <img src="/outputs/figures/granger-map-final.png" width="500" />
-  <img src="/outputs/figures/granger-pop-insecure.png" width="500" /> 
+ <img src="/outputs/figures/granger-map-final.png" width="500" />
+ <img src="/outputs/figures/granger-pop-insecure.png" width="500" /> 
 </p>
+-->
