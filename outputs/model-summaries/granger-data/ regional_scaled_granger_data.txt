@@ -1,0 +1,168 @@
+[1] "East Africa"
+
+	Pesaran CD test for cross-sectional dependence in panels
+
+data:  mean_ipc_diff ~ plm::lag(no_floods_diff, 0:4) + plm::lag(total_flood_area_diff,     0:4) + plm::lag(total_flood_dur_diff, 0:4)
+z = 295.94, p-value < 2.2e-16
+alternative hypothesis: cross-sectional dependence
+
+Oneway (individual) effect Random Effect Model 
+   (Wallace-Hussain's transformation)
+
+Note: Coefficient variance-covariance matrix supplied: function(x) vcovSCC(x, type = "HC1", maxlag = 4)
+
+Call:
+plm(formula = .formula, data = regional_granger_dfs_adm2[[name]], 
+    model = "random", random.method = "walhus")
+
+Balanced Panel: n = 714, T = 34, N = 24276
+
+Effects:
+                 var std.dev share
+idiosyncratic 0.9182  0.9582     1
+individual    0.0000  0.0000     0
+theta: 0
+
+Residuals:
+      Min.    1st Qu.     Median    3rd Qu.       Max. 
+-6.4624073 -0.2833024 -0.0073021  0.2140338  6.4880426 
+
+Coefficients:
+                                        Estimate Std. Error z-value  Pr(>|z|)    
+(Intercept)                            0.0073021  0.0308972  0.2363 0.8131731    
+plm::lag(no_floods_diff, 0:4)0         0.1467910  0.0621561  2.3617 0.0181938 *  
+plm::lag(no_floods_diff, 0:4)1         0.0228051  0.0812588  0.2806 0.7789805    
+plm::lag(no_floods_diff, 0:4)2         0.1534895  0.0757914  2.0252 0.0428512 *  
+plm::lag(no_floods_diff, 0:4)3        -0.0664652  0.1086469 -0.6118 0.5407003    
+plm::lag(no_floods_diff, 0:4)4        -0.0501979  0.0700206 -0.7169 0.4734342    
+plm::lag(total_flood_area_diff, 0:4)0 -0.1399680  0.0422719 -3.3111 0.0009292 ***
+plm::lag(total_flood_area_diff, 0:4)1 -0.1084005  0.0397092 -2.7299 0.0063361 ** 
+plm::lag(total_flood_area_diff, 0:4)2 -0.0761808  0.0477263 -1.5962 0.1104442    
+plm::lag(total_flood_area_diff, 0:4)3 -0.0022160  0.0455600 -0.0486 0.9612075    
+plm::lag(total_flood_area_diff, 0:4)4 -0.0144009  0.0379084 -0.3799 0.7040288    
+plm::lag(total_flood_dur_diff, 0:4)0  -0.2713753  0.0874427 -3.1035 0.0019127 ** 
+plm::lag(total_flood_dur_diff, 0:4)1  -0.1959862  0.0648386 -3.0227 0.0025055 ** 
+plm::lag(total_flood_dur_diff, 0:4)2  -0.2084660  0.0754157 -2.7642 0.0057058 ** 
+plm::lag(total_flood_dur_diff, 0:4)3   0.0350634  0.1066348  0.3288 0.7422935    
+plm::lag(total_flood_dur_diff, 0:4)4  -0.0257827  0.0616971 -0.4179 0.6760259    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Total Sum of Squares:    23675
+Residual Sum of Squares: 21724
+R-Squared:      0.082399
+Adj. R-Squared: 0.081832
+Chisq: 268.612 on 15 DF, p-value: < 2.22e-16
+
+[1] "Southeast Africa"
+
+	Pesaran CD test for cross-sectional dependence in panels
+
+data:  mean_ipc_diff ~ plm::lag(no_floods_diff, 0:4) + plm::lag(total_flood_area_diff,     0:4) + plm::lag(total_flood_dur_diff, 0:4)
+z = 444.81, p-value < 2.2e-16
+alternative hypothesis: cross-sectional dependence
+
+Oneway (individual) effect Random Effect Model 
+   (Wallace-Hussain's transformation)
+
+Note: Coefficient variance-covariance matrix supplied: function(x) vcovSCC(x, type = "HC1", maxlag = 4)
+
+Call:
+plm(formula = .formula, data = regional_granger_dfs_adm2[[name]], 
+    model = "random", random.method = "walhus")
+
+Balanced Panel: n = 308, T = 34, N = 10472
+
+Effects:
+                var std.dev share
+idiosyncratic 1.164   1.079     1
+individual    0.000   0.000     0
+theta: 0
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-4.43683 -0.26134 -0.03017  0.25061  4.70747 
+
+Coefficients:
+                                       Estimate Std. Error z-value Pr(>|z|)  
+(Intercept)                            0.030170   0.087857  0.3434  0.73130  
+plm::lag(no_floods_diff, 0:4)0         0.024304   0.084273  0.2884  0.77304  
+plm::lag(no_floods_diff, 0:4)1         0.109307   0.198579  0.5504  0.58202  
+plm::lag(no_floods_diff, 0:4)2         0.194616   0.241021  0.8075  0.41940  
+plm::lag(no_floods_diff, 0:4)3         0.046901   0.193070  0.2429  0.80806  
+plm::lag(no_floods_diff, 0:4)4        -0.223382   0.176863 -1.2630  0.20658  
+plm::lag(total_flood_area_diff, 0:4)0 -0.081585   0.046659 -1.7485  0.08037 .
+plm::lag(total_flood_area_diff, 0:4)1 -0.032137   0.077858 -0.4128  0.67978  
+plm::lag(total_flood_area_diff, 0:4)2  0.083059   0.110998  0.7483  0.45428  
+plm::lag(total_flood_area_diff, 0:4)3 -0.153891   0.149802 -1.0273  0.30428  
+plm::lag(total_flood_area_diff, 0:4)4  0.059584   0.067674  0.8804  0.37862  
+plm::lag(total_flood_dur_diff, 0:4)0  -0.131992   0.060727 -2.1735  0.02974 *
+plm::lag(total_flood_dur_diff, 0:4)1  -0.310205   0.144987 -2.1395  0.03239 *
+plm::lag(total_flood_dur_diff, 0:4)2  -0.256601   0.180903 -1.4184  0.15606  
+plm::lag(total_flood_dur_diff, 0:4)3  -0.113668   0.217168 -0.5234  0.60069  
+plm::lag(total_flood_dur_diff, 0:4)4   0.104583   0.100697  1.0386  0.29900  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Total Sum of Squares:    13078
+Residual Sum of Squares: 11840
+R-Squared:      0.094692
+Adj. R-Squared: 0.093393
+Chisq: 401.043 on 15 DF, p-value: < 2.22e-16
+
+[1] "West Africa"
+
+	Pesaran CD test for cross-sectional dependence in panels
+
+data:  mean_ipc_diff ~ plm::lag(no_floods_diff, 0:4) + plm::lag(total_flood_area_diff,     0:4) + plm::lag(total_flood_dur_diff, 0:4)
+z = 697.55, p-value < 2.2e-16
+alternative hypothesis: cross-sectional dependence
+
+Oneway (individual) effect Random Effect Model 
+   (Wallace-Hussain's transformation)
+
+Note: Coefficient variance-covariance matrix supplied: function(x) vcovSCC(x, type = "HC1", maxlag = 4)
+
+Call:
+plm(formula = .formula, data = regional_granger_dfs_adm2[[name]], 
+    model = "random", random.method = "walhus")
+
+Balanced Panel: n = 771, T = 34, N = 26214
+
+Effects:
+                 var std.dev share
+idiosyncratic 0.6867  0.8287     1
+individual    0.0000  0.0000     0
+theta: 0
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-4.41664 -0.15522 -0.00998  0.13239  4.39668 
+
+Coefficients:
+                                        Estimate Std. Error z-value Pr(>|z|)  
+(Intercept)                            0.0099800  0.0350502  0.2847  0.77585  
+plm::lag(no_floods_diff, 0:4)0        -0.1675408  0.0790372 -2.1198  0.03403 *
+plm::lag(no_floods_diff, 0:4)1        -0.1130470  0.0993577 -1.1378  0.25521  
+plm::lag(no_floods_diff, 0:4)2         0.0561906  0.1090721  0.5152  0.60643  
+plm::lag(no_floods_diff, 0:4)3         0.0723820  0.0805629  0.8985  0.36894  
+plm::lag(no_floods_diff, 0:4)4        -0.0705133  0.0538174 -1.3102  0.19012  
+plm::lag(total_flood_area_diff, 0:4)0  0.0790936  0.0556442  1.4214  0.15520  
+plm::lag(total_flood_area_diff, 0:4)1 -0.0371865  0.0627612 -0.5925  0.55351  
+plm::lag(total_flood_area_diff, 0:4)2  0.0081879  0.1103587  0.0742  0.94086  
+plm::lag(total_flood_area_diff, 0:4)3  0.0835712  0.1218760  0.6857  0.49290  
+plm::lag(total_flood_area_diff, 0:4)4  0.0011142  0.0760621  0.0146  0.98831  
+plm::lag(total_flood_dur_diff, 0:4)0  -0.0311250  0.0592314 -0.5255  0.59925  
+plm::lag(total_flood_dur_diff, 0:4)1   0.0037376  0.1073285  0.0348  0.97222  
+plm::lag(total_flood_dur_diff, 0:4)2  -0.0211893  0.1227206 -0.1727  0.86292  
+plm::lag(total_flood_dur_diff, 0:4)3  -0.1179248  0.0839376 -1.4049  0.16005  
+plm::lag(total_flood_dur_diff, 0:4)4  -0.0363159  0.0645930 -0.5622  0.57396  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Total Sum of Squares:    18661
+Residual Sum of Squares: 17520
+R-Squared:      0.061166
+Adj. R-Squared: 0.060628
+Chisq: 218.511 on 15 DF, p-value: < 2.22e-16
+

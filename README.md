@@ -1,17 +1,16 @@
-# Flooding & Food Security in Sub-Saharan Africa
+# Flooding and food security in Sub-Saharan Africa
 
-This repository contains ongoing analysis of the connections between past flooding, food security, and human displacement, focusing on West Africa. 
+This repository contains the source code for our analysis of where and to what extent flooding impacts food security in Sub-Saharan Africa. We make use of econometric time series analysis techniques, including static panel regression and panel Granger causality, to quantify the effects of floods on the integrated food security phase classification (IPC) metric at the place of their occurrence up to roughly a year after their onset.  
 
-## Folders
+This work is accompanied by qualitative case study analysis in our paper, which can be cited as follows:
 
-### Analysis
+> Reed, C. et al. The impact of flooding on food security across Sub-Saharan Africa. (In review).
 
-This folder contains the most developed Jupyter notebooks for the project so far. They are separated by spatiotemporal scale between annual/national and monthly/subnational. This structure may change as the project evolves.
+<!--
+## Where does flooding affect food security?
 
-### Data
-
-This folder contains data that has been engineered for analysis from geospatial and other data sources kept locally on my computer.
-
-### Scripts
-
-This folder contains the scripts used to engineer the data from its original sources and create new features. 
+<p align="middle">
+ <img src="/outputs/figures/granger-map-final.png" width="500" />
+ <img src="/outputs/figures/granger-pop-insecure.png" width="500" /> 
+</p>
+-->
