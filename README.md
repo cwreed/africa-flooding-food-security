@@ -1,6 +1,6 @@
 # Flooding and food security in Sub-Saharan Africa
 
-This repository contains the source code for our analysis of where and to what extent flooding impacts food security in Sub-Saharan Africa. We make use of econometric time series analysis techniques, including static panel regression and panel Granger causality, to quantify the effects of floods on the integrated food security phase classification (IPC) metric at the place of their occurrence up to roughly a year after their onset.  
+This repository contains the source code for our analysis of where and to what extent flooding impacts food security in Sub-Saharan Africa. We make use of econometric time series analysis techniques—including panel Granger causality and static panel regression—to quantify the effects of floods on the integrated food security phase classification (IPC) metric at the place of their occurrence up to roughly one year after their onset.  
 
 ## Data and feature engineering
 
@@ -47,5 +47,5 @@ We used static random effects panel models at multiple spatial scopes to quantif
 
 ### Interpretation and discussion
 
-In short, these models illuminate how floods heterogeneously impact food security across space and time over Sub-Saharan Africa, showing both positive and negative impacts at different spatial scales and time lags. Food security is ultimately a reflection of a social system, and we found through pairing this analysis with qualitative case studies that these effects are driven by context-specific impacts on food production, food access, and food distribution, and further are possibly dampened by targeted intervention. Full discussion is available in our paper, which will be linked here once publicly available. 
+In short, these models illuminate how floods heterogeneously impact food security across space and time over Sub-Saharan Africa, showing both positive and negative impacts at different spatial scopes and time lags. Food security reflects social dynamics as much as environmental ones, and so we decided to nuance our analysis by interpreting these model results in the context of qualitative case studies from humanitarian reports such as those produced by FEWS NET. Full discussion is available in our paper, which will be linked here once publicly available. 
 
