@@ -25,10 +25,10 @@ We used panel Granger causality analysis as a way to identify where there exists
 
 The figure below highlights the panels for which the indicated flood variables significantly Granger-caused changes in food security at a .00579 level. This level was calculated to constrain the false discovery rate to 0.10 given the large number of hypothesis tests conducted and to help prevent overinterpretation of potential Type I errors. Some of the panels did not experience enough variance in flooding over the study period to fit a linear model needed to test for Granger causality, and so were filtered out from this analysis as shown in the figure. 
 
-<figure>
- <img src="/outputs/figures/granger-map-final.png" width="500" style = "float: left; margin-right: 10px;"/><img src="/outputs/figures/granger-pop-insecure.png"     width="500" style = "float: left; margin-right: 10px;"/> 
- <figcaption><i>Map of where first-differenced flood variables Granger cause changes in food security based on a significance level determined using the false discovery rate method. Total population (as of 2020) living in panels indicated as experiencing a Granger-causal relationship between flooding and food security.</i></figcaption>
-</figure>
+
+<img src="/outputs/figures/granger-map-final.png" width="500" style = "float: left; margin-right: 10px;"/><img src="/outputs/figures/granger-pop-insecure.png"     width="500" style = "float: left; margin-right: 10px;"/> 
+<i>Map of where first-differenced flood variables Granger cause changes in food security based on a significance level determined using the false discovery rate method. Total population (as of 2020) living in panels indicated as experiencing a Granger-causal relationship between flooding and food security.</i>
+
 
 ### How do different aspects of floods contribute to fluctuations in food security?
 We used static random effects panel models at multiple spatial scopes to quantify the relationship between each of the contemporaneous and lagged flood variables and IPC. Additionally, we fit these models to the full data and the Granger-filtered data at each spatial scope. Random effects were specified as the correct model type for each sub-dataset with the code in `analysis/modeling/panel-model-specification.R` and the models were subsequenty fit in `analysis/modeling/panel-modeling.R`. Significant coefficients are plotted below.
