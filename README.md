@@ -25,7 +25,7 @@ We used panel Granger causality analysis as a way to identify where there exists
 
 The figure below highlights the panels for which the indicated flood variables significantly Granger-caused changes in food security at a .00579 level. This level was calculated to constrain the false discovery rate to 0.10 given the large number of hypothesis tests conducted and to help prevent overinterpretation of potential Type I errors. Some of the panels did not experience enough variance in flooding over the study period to fit a linear model needed to test for Granger causality, and so were filtered out from this analysis as shown in the figure. 
 
-<figure>
+<figure, align="center">
  <img src="/outputs/figures/granger-map-final.png" width="500" />
  <figcaption>Map of where first-differenced flood variables Granger cause changes in food security based on a significance level determined using the false discovery rate method </figcaption>
 </figure>
