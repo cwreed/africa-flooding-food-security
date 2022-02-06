@@ -35,15 +35,15 @@ The figure below highlights the panels for which the indicated flood variables s
 We used static random effects panel models at multiple spatial scopes to quantify the relationship between each of the contemporaneous and lagged flood variables and IPC. Additionally, we fit these models to the full data and the Granger-filtered data at each spatial scope. Random effects were specified as the correct model type for each sub-dataset with the code in `analysis/modeling/panel-model-specification.R` and the models were subsequenty fit in `analysis/modeling/panel-modeling.R`. Significant coefficients are plotted below.
 
 <p align="center" style="font-size:8px">
- <img src="/outputs/figures/all-africa-panel.png" width="500" />
+ <img src="/outputs/figures/all-africa-panel.png" width="500" /><br>
  <i>Significant (p-value < .05) coefficient estimates and 95% confidence intervals of All-Africa panel models for both the full and Granger-filtered datasets. </i>
 </p>
  
 <p align="center" style="font-size:8px">
-  <img src="/outputs/figures/west-africa-panel-fdr.png" width="500" />
-  <img src="/outputs/figures/east-africa-panel-fdr.png" width="500" />
-  <img src="/outputs/figures/south-africa-panel-fdr.png" width="500" />
- <i> Significant coefficient estimates and 95% confidence intervals for regional and country-specific panel models. Solid lines indicate coefficient p-value < $p*FDR = .0124$, representing the coefficients which are most confidently nonzero. Dashed lines indicate coefficient p-value < .05, representing coefficients that are confidently nonzero yet which warrant more targeted analysis to confirm. (top) West Africa and Chad, (middle) East Africa, and (bottom) Southeast Africa. Countries are indicated by colors in corresponding legends. </i>
+  <img src="/outputs/figures/west-africa-panel-fdr.png" width="500" /><br>
+  <img src="/outputs/figures/east-africa-panel-fdr.png" width="500" /><br>
+  <img src="/outputs/figures/south-africa-panel-fdr.png" width="500" /><br>
+ <i> Significant coefficient estimates and 95% confidence intervals for regional and country-specific panel models. Solid lines indicate coefficient p-value < $$p*FDR = .0124$$, representing the coefficients which are most confidently nonzero. Dashed lines indicate coefficient p-value < .05, representing coefficients that are confidently nonzero yet which warrant more targeted analysis to confirm. (top) West Africa and Chad, (middle) East Africa, and (bottom) Southeast Africa. Countries are indicated by colors in corresponding legends. </i>
 </p>
 
 
