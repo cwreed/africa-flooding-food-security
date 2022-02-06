@@ -1,18 +1,3 @@
-<html>
-<head>
-<style>
-figure {
-  text-align: center;
-}
-
-figcaption {
-  font-style: italic;
-  padding: 2px;
-  text-align: center;
-}
-</style>
-</head>
-
 # Flooding and food security in Sub-Saharan Africa
 
 This repository contains the source code for our analysis of where and to what extent flooding impacts food security in Sub-Saharan Africa. We make use of econometric time series analysis techniques, including static panel regression and panel Granger causality, to quantify the effects of floods on the integrated food security phase classification (IPC) metric at the place of their occurrence up to roughly a year after their onset.  
@@ -40,8 +25,8 @@ We used panel Granger causality analysis as a way to identify where there exists
 
 The figure below highlights the panels for which the indicated flood variables significantly Granger-caused changes in food security at a .00579 level. This level was calculated to constrain the false discovery rate to 0.10 given the large number of hypothesis tests conducted and to help prevent overinterpretation of potential Type I errors. Some of the panels did not experience enough variance in flooding over the study period to fit a linear model needed to test for Granger causality, and so were filtered out from this analysis as shown in the figure. 
 
-<figure align="center">
- <img src="/outputs/figures/granger-map-final.png" width="400" style = "float: left; margin-right: 10px;"/><img src="/outputs/figures/granger-pop-insecure.png" width="400" style = "float: left; margin-right: 10px;"/> 
+<figure>
+ <img src="/outputs/figures/granger-map-final.png" width="500" style = "float: left; margin-right: 10px;"/><img src="/outputs/figures/granger-pop-insecure.png"     width="500" style = "float: left; margin-right: 10px;"/> 
  <figcaption><i>Map of where first-differenced flood variables Granger cause changes in food security based on a significance level determined using the false discovery rate method. Total population (as of 2020) living in panels indicated as experiencing a Granger-causal relationship between flooding and food security.</i></figcaption>
 </figure>
 
