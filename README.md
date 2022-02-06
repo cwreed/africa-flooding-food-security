@@ -6,7 +6,7 @@ This repository contains the source code for our analysis of where and to what e
 
 The data used in this analysis include:
 
- - IPC over sub-Saharan Africa at a seasonal timestep from 2009–2020 produced by FEWSNET [available here](https://fews.net/fews-data/333)
+ - IPC over sub-Saharan Africa at a seasonal timestep from 2009–2020 produced by FEWS NET [available here](https://fews.net/fews-data/333)
  - Flood data from shapefiles produced by the Dartmouth Flood Observatory as part of the *Global Active Archive of Large Flood Events, 1985–Present* [available here](http://floodobservatory.colorado.edu/Archives/index.html)
  - Population data as of 2020 produced by WorldPop [available here](https://www.worldpop.org/geodata/summary?id=24777)
 
